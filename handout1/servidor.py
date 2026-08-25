@@ -23,6 +23,10 @@ while True:
 
     route = extract_route(request)
 
+    if not request:
+        client_connection.close()
+        continue
+
     filepath = CUR_DIR / route
     if filepath.is_file():
         response = build_response() + read_file(filepath)
