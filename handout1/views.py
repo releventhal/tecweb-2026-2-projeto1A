@@ -39,4 +39,7 @@ def index(request):
     notes = '\n'.join(notes_li)
 
     body = load_template('index.html').format(notes=notes)
-    return build_response(body)
+    return build_response(
+        body=body,
+        headers='Content-Type: text/html; charset=utf-8'
+    )

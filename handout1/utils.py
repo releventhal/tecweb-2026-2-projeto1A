@@ -33,12 +33,12 @@ def add_note(note):
         json.dump(notes, file)
 
 def build_response(body='', code=200, reason='OK', headers=''):
-    response = f'HTTP/1.1 {code} {reason}\n'
+    response = f'HTTP/1.1 {code} {reason}\r\n'
 
     if headers:
-        response += headers + '\n'
+        response += headers + '\r\n'
 
-    response += '\n'
+    response += '\r\n'
     response += body
 
-    return response.encode()
+    return response.encode('utf-8')
