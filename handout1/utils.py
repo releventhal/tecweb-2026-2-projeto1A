@@ -19,7 +19,7 @@ def load_data(filename):
 def load_template(filename):
     path = Path("templates") / filename
 
-    with open(path, "r") as file:
+    with open(path, "r", encoding="UTF-8") as file:
         return file.read()
 
 
