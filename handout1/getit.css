@@ -278,3 +278,34 @@ textarea.autoresize::placeholder {
   opacity: 1;
   transform: scale(1.15);
 }
+
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.edit-actions .btn {
+  flex: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 46px;
+  margin: 0;
+  padding: 14px;
+
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #ffffff;
+}
+
+.save-button {
+  background-color: #f7d736;
+}
