@@ -55,3 +55,20 @@ class Database:
     def delete(self, id):
         self.conn.execute("DELETE FROM note WHERE id = ?", (id,))
         self.conn.commit()
+
+    def get(self, note_id):
+        cursor = self.conn.execute(
+            'SELECT id, title, content FROM note WHERE id = ?',
+            (note_id,)
+        )
+
+        row = cursor.fetchone()
+
+        if row is None:
+            return None
+
+        return Note(
+            id=row[0],
+            title=row[1],
+            content=row[2]
+        )

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Editar anotação</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+    />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/getit.css" />
+  </head>
+
+  <body>
+    <header class="appbar">
+      <img
+        src="/img/logo-getit.png"
+        class="logo"
+        alt="Logotipo do Get-it"
+      />
+      <span class="subtitle">Editar anotação</span>
+    </header>
+
+    <main class="container">
+      <form class="form-card" action="/edit/{id}" method="POST">
+        <input
+          class="form-card-title"
+          type="text"
+          name="titulo"
+          value="{title}"
+          placeholder="Título"
+        />
+
+        <textarea
+          class="autoresize"
+          name="detalhes"
+          placeholder="Digite o conteúdo..."
+        >{details}</textarea>
+
+        <div class="edit-actions">
+          <button class="btn" type="submit">Salvar</button>
+          <a class="btn cancel-button" href="/">Cancelar</a>
+        </div>
+      </form>
+    </main>
+
+    <script src="/getit.js"></script>
+  </body>
+</html>

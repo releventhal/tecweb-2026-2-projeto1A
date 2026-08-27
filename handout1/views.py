@@ -1,6 +1,7 @@
 from utils import load_template, build_response
 from database import Database, Note
 from urllib.parse import unquote_plus
+from html import escape
 
 db = Database('banco')
 
@@ -63,4 +64,51 @@ def delete_note(note_id):
         code=303,
         reason='See Other',
         headers='Location: /'
+    )
+
+def edit(request, note_id):
+    note = db.get(note_id)
+
+    if note is None:
+        return build_response(
+            body='Anotação não encontrada',
+            code=404,
+            reason='Not Found',
+            headers='Content-Type: text/plain; charset=utf-8'
+        )
+
+    if request.startswith('POST'):
+        request = request.replace('\r', '')
+        partes = request.split('\n\n')
+        corpo = partes[1]
+
+        params = {}
+
+        for chave_valor in corpo.split('&'):
+            chave, valor = chave_valor.split('=', 1)
+            params[chave] = unquote_plus(valor)
+
+        updated_note = Note(
+            id=note.id,
+            title=params['titulo'],
+            content=params['detalhes']
+        )
+
+        db.update(updated_note)
+
+        return build_response(
+            code=303,
+            reason='See Other',
+            headers='Location: /'
+        )
+
+    body = load_template('edit.html').format(
+        id=note.id,
+        title=escape(note.title or '', quote=True),
+        details=escape(note.content or '')
+    )
+
+    return build_response(
+        body=body,
+        headers='Content-Type: text/html; charset=utf-8'
     )
