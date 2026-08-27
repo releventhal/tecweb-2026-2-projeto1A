@@ -42,6 +42,7 @@ def index(request):
     note_template = load_template('components/note.html')
     notes_li = [
         note_template.format(
+            id=note.id,
             title=note.title,
             details=note.content
         )
@@ -53,4 +54,13 @@ def index(request):
     return build_response(
         body=body,
         headers='Content-Type: text/html; charset=utf-8'
+    )
+
+def delete_note(note_id):
+    db.delete(note_id)
+
+    return build_response(
+        code=303,
+        reason='See Other',
+        headers='Location: /'
     )
