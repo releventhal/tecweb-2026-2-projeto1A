@@ -1,5 +1,8 @@
-from utils import load_data, load_template, add_note, build_response
+from utils import load_template, build_response
+from database import Database, Note
 from urllib.parse import unquote_plus
+
+db = Database('banco')
 
 def index(request):
 
@@ -19,7 +22,12 @@ def index(request):
             chave, valor = chave_valor.split('=')
             params[chave] = unquote_plus(valor)
 
-        add_note(params)
+        note = Note(
+            title=params['titulo'],
+            content=params['detalhes']
+        )
+
+        db.add(note)
 
         return build_response(
         code=303,
@@ -33,8 +41,11 @@ def index(request):
     # Se tiver curiosidade: https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions
     note_template = load_template('components/note.html')
     notes_li = [
-        note_template.format(title=dados['titulo'], details=dados['detalhes'])
-        for dados in load_data('notes.json')
+        note_template.format(
+            title=note.title,
+            details=note.content
+        )
+    for note in db.get_all()
     ]
     notes = '\n'.join(notes_li)
 
