@@ -35,7 +35,7 @@ while True:
 
     elif route.startswith('delete/'):
         note_id = route.split('/')[1]
-        response = delete_note(note_id)
+        response = delete_note(request, note_id)
 
     elif route.startswith('edit/'):
         note_id = route.split('/')[1]

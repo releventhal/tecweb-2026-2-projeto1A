@@ -57,13 +57,34 @@ def index(request):
         headers='Content-Type: text/html; charset=utf-8'
     )
 
-def delete_note(note_id):
-    db.delete(note_id)
+def delete_note(request, note_id):
+    note = db.get(note_id)
+
+    if note is None:
+        return build_response(
+            body='Anotação não encontrada',
+            code=404,
+            reason='Not Found',
+            headers='Content-Type: text/plain; charset=utf-8'
+        )
+
+    if request.startswith('POST'):
+        db.delete(note_id)
+
+        return build_response(
+            code=303,
+            reason='See Other',
+            headers='Location: /'
+        )
+
+    body = load_template('delete.html').format(
+        id=note.id,
+        title=escape(note.title or '', quote=True)
+    )
 
     return build_response(
-        code=303,
-        reason='See Other',
-        headers='Location: /'
+        body=body,
+        headers='Content-Type: text/html; charset=utf-8'
     )
 
 def edit(request, note_id):

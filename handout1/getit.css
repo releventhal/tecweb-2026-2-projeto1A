@@ -309,3 +309,41 @@ textarea.autoresize::placeholder {
 .save-button {
   background-color: #f7d736;
 }
+
+.delete-confirmation {
+  text-align: center;
+}
+
+.delete-confirmation h1 {
+  margin-bottom: 12px;
+  font-size: 22px;
+  color: #2c2c2c;
+}
+
+.delete-confirmation p {
+  margin-bottom: 24px;
+  color: #4c4c4c;
+}
+
+.delete-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.delete-actions .btn {
+  flex: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  margin: 0;
+  padding: 14px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.delete-button {
+  background-color: #e05252;
+  color: #ffffff;
+}
