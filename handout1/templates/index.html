@@ -32,11 +32,14 @@
     </header>
 
     <main class="container">
+      {error}
+
       <form class="form-card" action="/" method="POST">
         <input
           class="form-card-title"
           type="text"
           name="titulo"
+          value="{form_title}"
           placeholder="Título"
         />
 
@@ -44,7 +47,7 @@
           class="autoresize"
           name="detalhes"
           placeholder="Digite o conteúdo..."
-        ></textarea>
+        >{form_details}</textarea>
 
         <button class="btn" type="submit">Criar</button>
       </form>

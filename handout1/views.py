@@ -6,6 +6,9 @@ from html import escape
 db = Database('banco')
 
 def index(request):
+    error = ''
+    form_title = ''
+    form_details = ''
 
     # A string de request sempre começa com o tipo da requisição (ex: GET, POST)
     if request.startswith('POST'):
@@ -20,21 +23,31 @@ def index(request):
         # requisição e devolve os parâmetros para desacoplar esta lógica.
         # Dica: use o método split da string e a função unquote_plus
         for chave_valor in corpo.split('&'):
-            chave, valor = chave_valor.split('=')
+            chave, valor = chave_valor.split('=', 1)
             params[chave] = unquote_plus(valor)
 
-        note = Note(
-            title=params['titulo'],
-            content=params['detalhes']
-        )
+        form_title = params.get('titulo', '').strip()
+        form_details = params.get('detalhes', '').strip()
 
-        db.add(note)
+        if not form_title or not form_details:
+            error = '''
+            <div class="form-error">
+            Preencha o título e o conteúdo da anotação.
+            </div>
+            '''
+        else:
+            note = Note(
+                title=form_title,
+                content=form_details
+            )
 
-        return build_response(
-        code=303,
-        reason='See Other',
-        headers='Location: /'
-        )
+            db.add(note)
+
+            return build_response(
+                code=303,
+                reason='See Other',
+                headers='Location: /'
+            )
 
 
 
@@ -56,7 +69,13 @@ def index(request):
     ]
     notes = '\n'.join(notes_li)
 
-    body = load_template('index.html').format(notes=notes)
+    body = load_template('index.html').format(
+        notes=notes,
+        error=error,
+        form_title=escape(form_title, quote=True),
+        form_details=escape(form_details)
+    )
+
     return build_response(
         body=body,
         headers='Content-Type: text/html; charset=utf-8'
