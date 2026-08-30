@@ -7,6 +7,7 @@ class Note:
     id: int = None
     title: str = None
     content: str = ''
+    favorite: bool = False
 
 
 class Database:
@@ -21,6 +22,18 @@ class Database:
             );
         ''')
 
+        columns = self.conn.execute(
+            'PRAGMA table_info(note)'
+        ).fetchall()
+
+        column_names = [column[1] for column in columns]
+
+        if 'favorite' not in column_names:
+            self.conn.execute(
+                'ALTER TABLE note ADD COLUMN favorite INTEGER NOT NULL DEFAULT 0'
+            )
+            self.conn.commit()
+
     def add(self, note):
         self.conn.execute(
             'INSERT INTO note (title, content) VALUES (?, ?)',
@@ -30,17 +43,23 @@ class Database:
 
     def get_all(self):
         cursor = self.conn.execute(
-            'SELECT id, title, content FROM note'
+            '''
+            SELECT id, title, content, favorite
+            FROM note
+            ORDER BY favorite DESC
+            '''
         )
 
         notes = []
 
-        for linha in cursor:
-            id = linha[0]
-            title = linha[1]
-            content = linha[2]
+        for row in cursor:
+            note = Note(
+                id=row[0],
+                title=row[1],
+                content=row[2],
+                favorite=bool(row[3])
+            )
 
-            note = Note(id, title, content)
             notes.append(note)
 
         return notes
@@ -58,7 +77,11 @@ class Database:
 
     def get(self, note_id):
         cursor = self.conn.execute(
-            'SELECT id, title, content FROM note WHERE id = ?',
+            '''
+            SELECT id, title, content, favorite
+            FROM note
+            WHERE id = ?
+            ''',
             (note_id,)
         )
 
@@ -70,5 +93,21 @@ class Database:
         return Note(
             id=row[0],
             title=row[1],
-            content=row[2]
+            content=row[2],
+            favorite=bool(row[3])
         )
+
+    def toggle_favorite(self, note_id):
+        self.conn.execute(
+            '''
+            UPDATE note
+            SET favorite = CASE
+                WHEN favorite = 0 THEN 1
+                ELSE 0
+            END
+            WHERE id = ?
+            ''',
+            (note_id,)
+        )
+
+        self.conn.commit()

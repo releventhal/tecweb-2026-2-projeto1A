@@ -44,10 +44,15 @@ def index(request):
     notes_li = [
         note_template.format(
             id=note.id,
-            title=note.title,
-            details=note.content
+            title=escape(note.title or ''),
+            details=escape(note.content or ''),
+            favorite_class='favorite-active' if note.favorite else '',
+            favorite_icon='&#9733;' if note.favorite else '&#9734;',
+            favorite_label='Remover dos favoritos'
+            if note.favorite
+            else 'Adicionar aos favoritos'
         )
-    for note in db.get_all()
+        for note in db.get_all()
     ]
     notes = '\n'.join(notes_li)
 
@@ -137,4 +142,18 @@ def not_found():
         code=404,
         reason='Not Found',
         headers='Content-Type: text/html; charset=utf-8'
+    )
+
+def favorite_note(note_id):
+    note = db.get(note_id)
+
+    if note is None:
+        return not_found()
+
+    db.toggle_favorite(note_id)
+
+    return build_response(
+        code=303,
+        reason='See Other',
+        headers='Location: /'
     )

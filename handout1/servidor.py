@@ -1,7 +1,7 @@
 import socket
 from pathlib import Path
 from utils import extract_route, read_file, build_response
-from views import index, delete_note, edit, not_found
+from views import index, delete_note, edit, not_found, favorite_note
 
 CUR_DIR = Path(__file__).parent
 SERVER_HOST = '0.0.0.0'
@@ -40,6 +40,10 @@ while True:
     elif route.startswith('edit/'):
         note_id = route.split('/')[1]
         response = edit(request, note_id)
+
+    elif route.startswith('favorite/'):
+        note_id = route.split('/')[1]
+        response = favorite_note(note_id)
 
     else:
         response = not_found()

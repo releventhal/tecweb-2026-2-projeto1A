@@ -384,3 +384,39 @@ textarea.autoresize::placeholder {
   color: #2c2c2c;
   text-decoration: none;
 }
+
+.card-favorite {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+
+  color: #4c4c4c;
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  line-height: 1;
+  text-decoration: none;
+
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.card-favorite:hover {
+  color: #4c4c4c;
+  opacity: 1;
+  text-decoration: none;
+  transform: scale(1.15);
+}
+
+.card-favorite:visited {
+  color: #4c4c4c;
+  text-decoration: none;
+}
+
+.card-favorite.favorite-active {
+  color: #e0af26;
+  opacity: 1;
+}
+
+.card-title {
+  padding: 20px 28px 0 0;
+}
