@@ -17,15 +17,16 @@ print(f'Servidor escutando em (ctrl+click): http://{SERVER_HOST}:{SERVER_PORT}')
 while True:
     client_connection, client_address = server_socket.accept()
 
-    request = client_connection.recv(1024).decode(encoding="UTF-8")
-    print('*'*100)
-    print(request)
-
-    route = extract_route(request)
+    request = client_connection.recv(1024).decode(encoding='utf-8')
 
     if not request:
         client_connection.close()
         continue
+
+    print('*' * 100)
+    print(request)
+
+    route = extract_route(request)
 
     filepath = CUR_DIR / route
     if filepath.is_file():
