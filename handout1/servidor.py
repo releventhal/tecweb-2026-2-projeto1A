@@ -1,7 +1,7 @@
 import socket
 from pathlib import Path
 from utils import extract_route, read_file, build_response
-from views import index, delete_note, edit
+from views import index, delete_note, edit, not_found
 
 CUR_DIR = Path(__file__).parent
 SERVER_HOST = '0.0.0.0'
@@ -42,7 +42,7 @@ while True:
         response = edit(request, note_id)
 
     else:
-        response = build_response()
+        response = not_found()
 
     client_connection.sendall(response)
 

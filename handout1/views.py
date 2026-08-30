@@ -91,12 +91,7 @@ def edit(request, note_id):
     note = db.get(note_id)
 
     if note is None:
-        return build_response(
-            body='Anotação não encontrada',
-            code=404,
-            reason='Not Found',
-            headers='Content-Type: text/plain; charset=utf-8'
-        )
+        return not_found()
 
     if request.startswith('POST'):
         request = request.replace('\r', '')
@@ -131,5 +126,15 @@ def edit(request, note_id):
 
     return build_response(
         body=body,
+        headers='Content-Type: text/html; charset=utf-8'
+    )
+
+def not_found():
+    body = load_template('404.html')
+
+    return build_response(
+        body=body,
+        code=404,
+        reason='Not Found',
         headers='Content-Type: text/html; charset=utf-8'
     )

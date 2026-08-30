@@ -347,3 +347,40 @@ textarea.autoresize::placeholder {
   background-color: #e05252;
   color: #ffffff;
 }
+
+.not-found {
+  max-width: 520px;
+  margin: 40px auto;
+  text-align: center;
+  color: #2c2c2c;
+}
+
+.not-found strong {
+  display: block;
+  font-family: "Permanent Marker", cursive;
+  font-size: 100px;
+  line-height: 1;
+  color: #f7d736;
+}
+
+.not-found h1 {
+  margin: 18px 0 10px;
+  font-size: 28px;
+}
+
+.not-found p {
+  margin-bottom: 28px;
+  color: #4c4c4c;
+}
+
+.not-found-button {
+  display: inline-block;
+  color: #2c2c2c;
+  text-decoration: none;
+}
+
+.not-found-button:visited,
+.not-found-button:hover {
+  color: #2c2c2c;
+  text-decoration: none;
+}
